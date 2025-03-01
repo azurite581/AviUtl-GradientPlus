@@ -1,0 +1,39 @@
+name: Release
+
+run-name: Release
+on:
+  push:
+    tags:
+    - "v[0-9]+.[0-9]+.[0-9]+"
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    permissions:
+      contents: write
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Create zip archive
+      run: |
+        mv script/* .
+        zip -r "GradientPlus_${VERSION}.zip" GradientPlus.* README.md LICENSE.txt
+      env:
+        VERSION: ${{github.ref_name}}
+
+    - name: Create release notes
+      run: gh release create "${VERSION}" --generate-notes ${{github.workspace}}/*.zip
+      env:
+        VERSION: ${{github.ref_name}}
+        GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}

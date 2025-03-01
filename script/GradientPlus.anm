@@ -1,0 +1,44 @@
+--track0:中心X,-1000,1000,0
+--track1:中心Y,-1000,1000,0
+--track2:角度,0,360,0
+--track3:幅,0,1000,100,1
+--dialog:強さ,_0=100;*合成モード,_1=1;*形状,_2=1;*色空間,_3=1;*補間経路,_4=1;開始色/col,_5=0xffffff;終了色/col,_6=0x000000;再読込/chk,_7=0;
+
+local chk, rm = pcall(require, "rikky_module")
+if chk then
+    rm.list(2, {"1. 通常", "2. 加算", "3. 減算", "4. 乗算", "5. スクリーン", "6. オーバーレイ", "7. 比較(明)", "8. 比較(暗)", "9. 輝度", "10. 色差", "11. 陰影", "12. 明暗", "13. 差分"})
+    rm.list(3, {"1. 線", "2. 円", "3. 四角形", "4. 凸形", "5. 円ループ", "6. 四角ループ", "7. 凸ループ", "8. 凸ループ2"})
+    rm.list(4, {"1. Linear sRGB", "2. HSV", "3. HSL", "4. L*a*b", "5. LCh", "6. Oklab", "7. Oklch"})
+    rm.list(5, {"1. 短経路", "2. 長経路"})
+end
+
+obj.setanchor("track", 0, "line")
+
+local offset_x = obj.track0
+local offset_y = obj.track1
+local angle    = obj.track2
+local width    = obj.track3
+local strength      = _0 or 100      _0 = nil
+local blend_mode    = _1 or 1        _1 = nil
+local gradient_type = _2 or 1        _2 = nil
+local color_space   = _3 or 1        _3 = nil
+local interp_dir    = _4 or 1        _4 = nil
+local color1        = _5 or 0xffffff _5 = nil
+local color2        = _6 or 0x000000 _6 = nil
+local reload        = (_7 or 0) ~= 0 _7 = nil
+
+local GradientPlus = require("GradientPlus")
+GradientPlus.GradientPlus(
+    offset_x,
+    offset_y,
+    angle,
+    width,
+    strength,
+    blend_mode,
+    gradient_type,
+    color_space,
+    interp_dir,
+    color1,
+    color2,
+    reload
+)
