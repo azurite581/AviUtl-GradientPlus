@@ -28,7 +28,7 @@ jobs:
     - name: Create zip archive
       run: |
         mv script/* .
-        zip -r "GradientPlus_${VERSION}.zip" GradientPlus.* README.md LICENSE.txt
+        zip -r "GradientPlus_${VERSION}.zip" GradientPlus.* README.md LICENSE.txt Licenses
       env:
         VERSION: ${{github.ref_name}}
 
